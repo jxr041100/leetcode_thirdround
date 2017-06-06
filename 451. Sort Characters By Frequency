@@ -1,0 +1,30 @@
+Given a string, sort it in decreasing order based on the frequency of characters.Example 1: Input:
+"tree"
+
+Output:
+"eert"
+
+Explanation:
+'e' appears twice while 'r' and 't' both appear once.
+So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+Example 2: Input:
+"cccaaa"
+
+Output:
+"cccaaa"
+
+Explanation:
+Both 'c' and 'a' appear three times, so "aaaccc" is also a valid answer.
+Note that "cacaca" is incorrect, as the same characters must be together.
+Example 3: Input:
+"Aabb"
+
+Output:
+"bbAa"
+
+Explanation:
+"bbaA" is also a valid answer, but "Aabb" is incorrect.
+Note that 'A' and 'a' are treated as two different characters.
+
+class Solution {public:    class Compare    {    public:        bool operator() (pair<char,int> a, pair<char,int>b)        {                        return !(a.second>b.second || (a.second==b.second && a.first<b.first));        }    };
+    string frequencySort(string s) {      //unordered_map<char,int> _map;      int _map[256]={0};      for(auto c:s) _map[c]++;      /*priority_queue<pair<char,int>,vector<pair<char,int>>,Compare> q;            //Note1: 对于priority_queue,我们不能使用lamda function inside priority_queue,      // * 我们必须使用class Compare, please look at the above function      //priority_queue<pair<char,int>,vector<pair<char,int>>,[](pair<char,int> a,pair<char,int> b){return a.second>b.second || (a.second==b.second && a.first<b.first);}> q;      for(int i = 0;i<256;i++)        if(_map[i]!=0)           q.push(make_pair(i,_map[i]));      string res="";      while(!q.empty())      {         cout << q.top().first << " = " << q.top().second<< endl;         for(int i = 0;i<q.top().second;i++)                res+=q.top().first;         q.pop();      }      return res;*/      //这里【&】不能缺少，因为调用了_map;还必须研究一下heap的解法      sort(s.begin(),s.end(),[_map](char a,char b){return _map[a]>_map[b] || (_map[a]==_map[b] && a<b);});     return s;       }};
